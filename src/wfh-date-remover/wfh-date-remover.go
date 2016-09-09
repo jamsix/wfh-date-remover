@@ -41,9 +41,9 @@ func RecurseFiles(dirname string) {
 			files = append(files, entry)
 		}
 	}
+	entries = nil
 
 	RenameFiles(dirname, files)
-
 	files = nil
 
 	for _, dir := range dirs {
