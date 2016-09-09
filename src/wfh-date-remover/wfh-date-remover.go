@@ -10,6 +10,8 @@ import (
 	"time"
 )
 
+var totalRenamed, totalRemoved int
+
 var log = new(Log)
 
 type FileHistoryFile struct {
@@ -24,6 +26,7 @@ func main() {
 	dir, _ := os.Getwd()
 	log.Info("Starting in %s", dir)
 	RecurseFiles(dir)
+	log.Info("Total removed: %d, total renamed: %d", totalRemoved, totalRenamed)
 }
 
 func RecurseFiles(dirname string) {
@@ -83,13 +86,16 @@ func RenameFiles(dirname string, files []os.FileInfo) {
 					// File with OriginalFilename already exists
 					os.Remove(relativeName)
 					log.Info("Removed %s (%s already exists)", relativeName, relativeOriginalName)
+					totalRemoved++
 				} else {
 					os.Rename(relativeName, relativeOriginalName)
 					log.Info("Renamed %s to %s", relativeName, relativeOriginalName)
+					totalRenamed++
 				}
 			} else {
 				os.Remove(relativeName)
 				log.Info("Removed %s (newer version exists)", relativeName)
+				totalRemoved++
 			}
 		}
 	}
