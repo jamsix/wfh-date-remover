@@ -21,7 +21,9 @@ type FileHistoryFile struct {
 }
 
 func main() {
-	RecurseFiles(".")
+	dir, _ := os.Getwd()
+	log.Info("Starting in %s", dir)
+	RecurseFiles(dir)
 }
 
 func RecurseFiles(dirname string) {
